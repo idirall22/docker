@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: docker build -f Dockerfile-dev -t idirall22/api .
+    - name: Docker Publish
+      uses: idirall22/docker_test@v1.0.1
+      with:
+        # Name of the Docker image
+        name: idirall22/api
+        # Username for Docker registry
+        username: ${{ secrets.DOCKER_USERNAME }} 
+        # Password for Docker registry
+        password: ${{ secrets.DOCKER_PASSWORD }} 
