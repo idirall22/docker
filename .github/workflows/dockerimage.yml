@@ -1,22 +1,23 @@
-name: Docker Image CI
-
+name: Publish Docker
 on: [push]
-
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@master
-    
     - name: Publish to Registry
-      run: docker build . --file Dockerfile --tag docker-api
+      uses: idirall22/docker_test
+      with:
+        name: idirall22/docker_test
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
     
-    - name: login to docker
-      run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-sdtin
+#     - name: Publish to Registry
+#       run: docker build . --file Dockerfile --tag docker-api
     
-    - name: push to docker hub
-      run: docker push idirall22/docker_test:docker-api
+#     - name: login to docker
+#       run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-sdtin
+    
+#     - name: push to docker hub
+#       run: docker push idirall22/docker_test:docker-api
     
