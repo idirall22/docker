@@ -1,0 +1,12 @@
+FROM golang:1.13 as builder
+WORKDIR /app
+RUN go mod init github.com/idir/docker
+COPY ./main.go .
+RUN ["go", "build", "-o", "api"]
+
+FROM golang:1.13
+WORKDIR /app
+COPY --from=builder /app/api .
+EXPOSE 5000
+CMD ["./api"]
+
